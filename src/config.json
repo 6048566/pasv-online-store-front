@@ -1,0 +1,4 @@
+{
+  "api_base_url": "http://api.onlinestore.pasv.xxiweb.ru/api",
+  "jwt_prefix": "Bearer"
+}
