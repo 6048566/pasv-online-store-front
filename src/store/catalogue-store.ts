@@ -5,7 +5,7 @@ import { PaginationLinks } from '../types/pagination'
 
 class CatalogueStore {
 
-  productsListStore = {
+  productsList = {
     result: [] as ModestProduct[],
     count: 0,
     page: 1,
@@ -20,28 +20,22 @@ class CatalogueStore {
   }
 
 
-  loadAllProductsData(urlPage) {
+  loadAllProductsData(page) {
     this.isProductsListLoading = true
 
     api.get(
-      '/product/all/?page=' + urlPage)
+      '/product/all/?page=' + page)
       .then(res => {
         runInAction(() => {
-          this.productsListStore = res.data
-          this.productsListStore.result = res.data.result
-          this.productsListStore.count = res.data.count
-          this.productsListStore.page = res.data.page
-          this.productsListStore.pages = res.data.pages
-          this.productsListStore.links = res.data.links
+          this.productsList = res.data
         })
       })
       .catch(error => {
         this.error = error.response
-        this.isProductsListLoading = false
       })
-    this.isProductsListLoading = false
+      .finally(() => runInAction(() => this.isProductsListLoading = false))
   }
 
 }
 
-export default new CatalogueStore()
+export const catalogueStore = new CatalogueStore()

@@ -1,27 +1,31 @@
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import LeftBar from './left-bar'
-import catalogueStore from '../../../store/catalogue-store'
 import { toJS } from 'mobx'
 import { PaginatorBlock } from './paginator-block'
 import BreadCrumbsTop from '../../layout/bread-crumbs-top'
 import { RouteComponentProps } from 'react-router-dom'
 import { ProductItem } from './product-item'
+import { catalogueStore } from '../../../store/catalogue-store'
 
 type Params = { page: string }
 type Props = RouteComponentProps<Params>
 
+
 const Catalogue = ({ match }: Props) => {
 
-  const urlPage = Number(!match.params.page ? 1 : match.params.page)
+  const page = Number(!match.params.page ? 1 : match.params.page)
+
+  // const query = useQuery()
+  // const minPrice = query.get('min-price')
 
   useEffect(() => {
-    catalogueStore.loadAllProductsData(urlPage)
-  }, [urlPage])
+    catalogueStore.loadAllProductsData(page)
+  }, [page])
 
   let listItems
 
-  const store = toJS(catalogueStore.productsListStore)
+  const store = toJS(catalogueStore.productsList)
 
   if (!catalogueStore.isProductsListLoading) {
     listItems = store.result.map((item) =>
@@ -61,7 +65,7 @@ const Catalogue = ({ match }: Props) => {
                 <PaginatorBlock
                   links={store.links}
                   pages={store.pages}
-                  urlPage={urlPage}
+                  urlPage={page}
                 />
               </nav>
             </main>

@@ -11,7 +11,7 @@ export const ProductItem = ({ item }: Props) => {
       <figure className="card card-product-grid">
         <div className="img-wrap">
           <span className="badge badge-danger"> NEW </span>
-          <img src="/images/items/1.jpg"/>
+          <img src={item.photo || '/images/items/1.jpg'} alt=""/>
         </div>
         <figcaption className="info-wrap">
           <div className="fix-height">
