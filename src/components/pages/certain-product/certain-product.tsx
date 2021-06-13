@@ -26,7 +26,7 @@ export const CertainProduct = observer(({ match }: Props) => {
           :
           <div className="card" style={{ margin: 25 }}>
             <div className="row no-gutters">
-              <aside className="col-md-6">
+              <aside className="col-md-6 d-flex justify-content-center align-items-center">
                 <img className="w-80 h-80" src={certainProductStore.product?.photo || '/images/items/1.jpg'} alt=""/>
               </aside>
               <main className="col-md-6 border-left">

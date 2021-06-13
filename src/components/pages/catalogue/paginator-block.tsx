@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { PaginationLinks } from '../../../types/pagination'
+import { useQuery } from '../../../hooks/useQuery'
 
 type Props = {
   links: PaginationLinks
@@ -9,6 +10,8 @@ type Props = {
 }
 
 export const PaginatorBlock = (props: Props) => {
+  const queryString = '?' + useQuery().toString()
+
   const buttons: ReactNode[] = []
   let activeClass = ''
   for (let i = 1; i <= props.pages; i++) {
@@ -16,24 +19,26 @@ export const PaginatorBlock = (props: Props) => {
 
     buttons.push(
       <li key={i} className={'page-item' + activeClass}>
-        <Link className="page-link" to={'/products/page/' + i}>{i}</Link>
+        <Link className="page-link" to={'/products/page/' + i + queryString}>{i}</Link>
       </li>
     )
   }
 
   return (
     <ul className="pagination">
-      {props.links.previous ? (
+      {props.links.previous && (
         <li className="page-item">
-          <Link className="page-link" to={'/products/page/' + props.links.previous_num_page}>Previous</Link>
+          <Link className="page-link" to={'/products/page/' + props.links.previous_num_page + queryString}>
+            Previous
+          </Link>
         </li>
-      ) : null}
+      )}
       {buttons}
-      {props.links.next ? (
+      {props.links.next && (
         <li className="page-item">
-          <Link className="page-link" to={'/products/page/' + props.links.next_num_page}>Next</Link>
+          <Link className="page-link" to={'/products/page/' + props.links.next_num_page + queryString}>Next</Link>
         </li>
-      ) : null}
+      )}
 
     </ul>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import { ModestProduct } from '../../../types/product'
 
 type Props = {
@@ -15,7 +16,7 @@ export const ProductItem = ({ item }: Props) => {
         </div>
         <figcaption className="info-wrap">
           <div className="fix-height">
-            <a href="#" className="title">{item.title}</a>
+            <NavLink to={`/products/${item.id}`} className="title">{item.title}</NavLink>
             <div className="price-wrap mt-2">
               <span className="price">${item.price}</span>
               {(item.old_price) ?

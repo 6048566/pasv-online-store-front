@@ -1,4 +1,4 @@
-import { observable, action, makeObservable, runInAction } from 'mobx'
+import { action, makeAutoObservable, runInAction } from 'mobx'
 import api from '../api'
 
 class CartStore {
@@ -14,11 +14,7 @@ class CartStore {
   error = ''
 
   constructor() {
-    makeObservable(this, {
-      productsCartStore: observable,
-      isProductsCartLoading: observable,
-      error: observable
-    })
+    makeAutoObservable(this)
   }
 
 
@@ -37,19 +33,6 @@ class CartStore {
       })
   })
 
-  createCustomerToken() {
-    api.get(
-      '/customer/create/')
-      .then(res => {
-        runInAction(() => {
-          localStorage.setItem('customer_token', res.data.customer_token)
-        })
-      })
-      .catch(error => {
-        this.error = error.response
-
-      })
-  }
 }
 
 

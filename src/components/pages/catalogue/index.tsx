@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import LeftBar from './left-bar'
 import { toJS } from 'mobx'
 import { PaginatorBlock } from './paginator-block'
 import BreadCrumbsTop from '../../layout/bread-crumbs-top'
 import { RouteComponentProps } from 'react-router-dom'
 import { ProductItem } from './product-item'
 import { catalogueStore } from '../../../store/catalogue-store'
+import { useQuery } from '../../../hooks/useQuery'
+import LeftBar from './left-bar/left-bar'
+import { Loader } from '../../shared/loader/loader'
 
 type Params = { page: string }
 type Props = RouteComponentProps<Params>
@@ -16,12 +18,23 @@ const Catalogue = ({ match }: Props) => {
 
   const page = Number(!match.params.page ? 1 : match.params.page)
 
-  // const query = useQuery()
-  // const minPrice = query.get('min-price')
+  const query = useQuery()
+
+  useEffect(() => {
+    catalogueStore.setCategoryId(Number(query.get('category_id')))
+    catalogueStore.setBrandId(Number(query.get('brand_id')))
+    catalogueStore.setMinMaxPrice(Number(query.get('min_price')), Number(query.get('max_price')))
+  }, [])
 
   useEffect(() => {
     catalogueStore.loadAllProductsData(page)
-  }, [page])
+  }, [
+    page,
+    catalogueStore.filters.categoryId,
+    catalogueStore.filters.brandId,
+    catalogueStore.filters.maxPrice,
+    catalogueStore.filters.minPrice
+  ])
 
   let listItems
 
@@ -59,6 +72,8 @@ const Catalogue = ({ match }: Props) => {
                 </div>
               </header>
               <div className="row">
+                {catalogueStore.isProductsListLoading &&
+                <div className="col-12 my-5 d-flex justify-content-center align-items-center"><Loader/></div>}
                 {listItems}
               </div>
               <nav className="mt-4" aria-label="Page navigation sample">
