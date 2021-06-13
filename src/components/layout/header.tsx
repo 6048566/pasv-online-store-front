@@ -9,7 +9,7 @@ export const Header = () => {
             <div className="row align-items-center">
               <div className="col-lg-2 col-4">
                 <a href="http://bootstrap-ecommerce.com" className="brand-wrap">
-                  <img className="logo" src="images/logo.png"/>
+                  <img className="logo" alt="" src="/images/logo.png"/>
                 </a>
               </div>
               <div className="col-lg-6 col-sm-12">

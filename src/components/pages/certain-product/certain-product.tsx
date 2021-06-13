@@ -24,10 +24,10 @@ export const CertainProduct = observer(({ match }: Props) => {
         certainProductStore.isLoading
           ? <Loader/>
           :
-          <div className="card">
+          <div className="card" style={{ margin: 25 }}>
             <div className="row no-gutters">
               <aside className="col-md-6">
-                <img className="w-100 h-100" src={certainProductStore.product?.photo || '/images/items/1.jpg'} alt=""/>
+                <img className="w-80 h-80" src={certainProductStore.product?.photo || '/images/items/1.jpg'} alt=""/>
               </aside>
               <main className="col-md-6 border-left">
                 <article className="content-body">
@@ -50,11 +50,11 @@ export const CertainProduct = observer(({ match }: Props) => {
                       <label>Quantity</label>
                       <div className="mt-1 input-group mb-3 input-spinner">
                         <div className="input-group-prepend">
-                          <button className="btn btn-light" type="button" id="button-plus"> +</button>
+                          <button className="btn btn-light" type="button" id="button-minus"> -</button>
                         </div>
                         <input type="text" className="form-control" defaultValue="1"/>
                         <div className="input-group-append">
-                          <button className="btn btn-light" type="button" id="button-minus"> −</button>
+                          <button className="btn btn-light" type="button" id="button-plus"> +</button>
                         </div>
                       </div>
                     </div>
