@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { toJS } from 'mobx'
 import { PaginatorBlock } from './paginator-block'
-import BreadCrumbsTop from '../../layout/bread-crumbs-top'
+import { BreadCrumbsTop } from '../../layout/bread-crumbs-top'
 import { RouteComponentProps } from 'react-router-dom'
 import { ProductItem } from './product-item'
 import { catalogueStore } from '../../../store/catalogue-store'
@@ -14,14 +14,14 @@ type Params = { page: string }
 type Props = RouteComponentProps<Params>
 
 
-const Catalogue = ({ match }: Props) => {
+export const CataloguePage = observer(({ match }: Props) => {
 
   const page = Number(!match.params.page ? 1 : match.params.page)
 
   const query = useQuery()
 
   useEffect(() => {
-    catalogueStore.setCategoryId(Number(query.get('category_id')))
+    catalogueStore.setCategoryId(Number(query.get('category_id')), true)
     catalogueStore.setBrandId(Number(query.get('brand_id')))
     catalogueStore.setMinMaxPrice(Number(query.get('min_price')), Number(query.get('max_price')))
   }, [])
@@ -48,7 +48,20 @@ const Catalogue = ({ match }: Props) => {
 
   return (
     <>
-      <BreadCrumbsTop/>
+      {
+        catalogueStore.filters.categoryId
+          ? <BreadCrumbsTop
+            title="Products Page"
+            crumbs={[
+              { title: 'Products', link: 'products/page/1' }
+            ]}
+            here={catalogueStore.categoryList.find(c => c.id === catalogueStore.filters.categoryId)?.title || ''}/>
+          : <BreadCrumbsTop
+            title="Products Page"
+            crumbs={[]}
+            here="Products"/>
+      }
+
       <section className="section-content padding-y">
         <div className="container">
           <div className="row">
@@ -89,6 +102,5 @@ const Catalogue = ({ match }: Props) => {
       </section>
     </>
   )
-}
+})
 
-export default observer(Catalogue)

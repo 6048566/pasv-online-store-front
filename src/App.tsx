@@ -1,16 +1,14 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import Routes from './routes'
+import { Routes } from './routes'
 import { Header } from './components/layout/header'
 
 
 export const App = () => {
   return (
-    <>
+    <BrowserRouter>
       <Header/>
-      <BrowserRouter>
-        <Routes/>
-      </BrowserRouter>
-    </>
+      <Routes/>
+    </BrowserRouter>
   )
 }

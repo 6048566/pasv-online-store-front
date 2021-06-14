@@ -22,7 +22,8 @@ class CatalogueStore {
     maxPrice: null as number | null
   }
 
-  setCategoryId(id: number | null) {
+  setCategoryId(id: number | null, noToggle = false) {
+    if (noToggle) return this.filters.categoryId = id
     return this.filters.categoryId = this.filters.categoryId === id ? null : id
   }
 

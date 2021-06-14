@@ -1,6 +1,6 @@
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
-import Catalogue from './components/pages/catalogue'
+import { Redirect, Route, Switch } from 'react-router-dom'
+import { CataloguePage } from './components/pages/catalogue'
 import { CertainProduct } from './components/pages/certain-product/certain-product'
 import { ShoppingCart } from './components/pages/shopping-cart'
 
@@ -9,15 +9,14 @@ import { ShoppingCart } from './components/pages/shopping-cart'
 // import Faq from "./pages/faq";
 // import Logout from "./pages/auth/logout";
 
-const Routes = () => {
+export const Routes = () => {
   return (
     <Switch>
       <Route path="/cart" component={ShoppingCart} exact/>
       <Route path="/products/:pk" component={CertainProduct} exact/>
-      <Route path="/products/page/:page" component={Catalogue} exact/>
+      <Route path="/products/page/:page" component={CataloguePage} exact/>
       <Route path="/" component={() => <Redirect to={'/products/page/1'}/>}/>
     </Switch>
   )
 }
 
-export default Routes

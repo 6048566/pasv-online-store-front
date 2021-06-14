@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { certainProductStore } from '../../../store/certain-product-store'
 import { observer } from 'mobx-react-lite'
-import BreadCrumbsTop from '../../layout/bread-crumbs-top'
+import { BreadCrumbsTop } from '../../layout/bread-crumbs-top'
 import { Loader } from '../../shared/loader/loader'
+import { catalogueStore } from '../../../store/catalogue-store'
 
 type Params = { pk: string }
 type Props = RouteComponentProps<Params>
@@ -19,7 +20,17 @@ export const CertainProduct = observer(({ match }: Props) => {
 
   return (
     <>
-      <BreadCrumbsTop/>
+      <BreadCrumbsTop title="Product Page" crumbs={catalogueStore.filters.categoryId
+        ?
+        [
+          { title: 'Products', link: 'products/page/1' },
+          {
+            title: catalogueStore.categoryList.find(c => c.id === catalogueStore.filters.categoryId)?.title || '',
+            link: `/products/page/1?category_id=${catalogueStore.filters.categoryId}`
+          }
+        ]
+        : [{ title: 'Products', link: 'products/page/1' }]
+      } here={certainProductStore.product?.title || ''}/>
       {
         certainProductStore.isLoading
           ? <Loader/>

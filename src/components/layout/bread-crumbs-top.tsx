@@ -1,16 +1,31 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-const BreadCrumbsTop = () => {
+type Crumb = {
+  title: string,
+  link: string
+}
+
+type Props = {
+  title: string,
+  crumbs: Crumb[]
+  here: string
+}
+
+export const BreadCrumbsTop = ({ title, crumbs, here }: Props) => {
   return (
     <>
       <section className="section-pagetop bg">
         <div className="container">
-          <h2 className="title-page">Category products</h2>
+          <h2 className="title-page">{title}</h2>
           <nav>
             <ol className="breadcrumb text-white">
-              <li className="breadcrumb-item"><a href="#">Home</a></li>
-              <li className="breadcrumb-item"><a href="#">Best category</a></li>
-              <li className="breadcrumb-item active" aria-current="page">Great articles</li>
+              {
+                crumbs.map((crumb, i) =>
+                  <li key={i} className="breadcrumb-item"><NavLink to={crumb.link}>{crumb.title}</NavLink></li>
+                )
+              }
+              <li className="breadcrumb-item active">{here}</li>
             </ol>
           </nav>
         </div>
@@ -19,4 +34,3 @@ const BreadCrumbsTop = () => {
   )
 }
 
-export default BreadCrumbsTop
