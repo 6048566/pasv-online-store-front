@@ -24,7 +24,7 @@ export const CategoriesList = observer(() => {
           <li key={category.id}>
             <button
               onClick={() => {
-                query.set('category_id', catalogueStore.setCategoryId(category.id)?.toString() || 'null')
+                query.set('category_id', catalogueStore.calcCategoryIdString(category.id))
                 history.push({ pathname: '/products/page/1', search: query.toString() })
               }}
               style={{ textDecoration: 'none', padding: '1px 12px' }}

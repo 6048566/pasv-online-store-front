@@ -7,7 +7,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import { ProductItem } from './product-item'
 import { catalogueStore } from '../../../store/catalogue-store'
 import { useQuery } from '../../../hooks/useQuery'
-import LeftBar from './left-bar/left-bar'
+import { LeftBar } from './left-bar/left-bar'
 import { Loader } from '../../shared/loader/loader'
 
 type Params = { page: string }
@@ -19,12 +19,21 @@ export const CataloguePage = observer(({ match }: Props) => {
   const page = Number(!match.params.page ? 1 : match.params.page)
 
   const query = useQuery()
+  const categoryId = Number(query.get('category_id'))
+  const brandId = Number(query.get('brand_id'))
+  const min = Number(query.get('min_price'))
+  const max = Number(query.get('max_price'))
 
   useEffect(() => {
-    catalogueStore.setCategoryId(Number(query.get('category_id')), true)
-    catalogueStore.setBrandId(Number(query.get('brand_id')))
-    catalogueStore.setMinMaxPrice(Number(query.get('min_price')), Number(query.get('max_price')))
-  }, [])
+    catalogueStore.setCategoryId(categoryId)
+  }, [categoryId])
+  useEffect(() => {
+    catalogueStore.setBrandId(brandId)
+  }, [brandId])
+  useEffect(() => {
+    catalogueStore.setMinMaxPrice(min, max)
+  }, [min, max])
+
 
   useEffect(() => {
     catalogueStore.loadAllProductsData(page)

@@ -22,13 +22,20 @@ class CatalogueStore {
     maxPrice: null as number | null
   }
 
-  setCategoryId(id: number | null, noToggle = false) {
-    if (noToggle) return this.filters.categoryId = id
-    return this.filters.categoryId = this.filters.categoryId === id ? null : id
+  calcCategoryIdString(id: number) {
+    return this.filters.categoryId === id ? 'null' : id.toString()
+  }
+
+  setCategoryId(id: number) {
+    return this.filters.categoryId = id
+  }
+
+  calcBrandIdString(id: number) {
+    return this.filters.brandId === id ? 'null' : id.toString()
   }
 
   setBrandId(id: number) {
-    return this.filters.brandId = this.filters.brandId === id ? null : id
+    return this.filters.brandId = id
   }
 
   setMinMaxPrice(min: number, max: number) {

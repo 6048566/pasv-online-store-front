@@ -25,7 +25,7 @@ export const BrandsList = observer(() => {
                 <li key={brand.id}>
                   <button
                     onClick={() => {
-                      query.set('brand_id', catalogueStore.setBrandId(brand.id)?.toString() || 'null')
+                      query.set('brand_id', catalogueStore.calcBrandIdString(brand.id))
                       history.push({ pathname: '/products/page/1', search: query.toString() })
                     }}
                     style={{ textDecoration: 'none', padding: '1px 12px' }}

@@ -3,7 +3,7 @@ import { CategoriesList } from './categories-list'
 import { BrandsList } from './brands-list'
 import { PriceRangeForm } from './price-range-form'
 
-const LeftBar = () => {
+export const LeftBar = () => {
   return (
     <>
       <aside className="col-md-3">
@@ -60,4 +60,4 @@ const LeftBar = () => {
   )
 }
 
-export default LeftBar
+
