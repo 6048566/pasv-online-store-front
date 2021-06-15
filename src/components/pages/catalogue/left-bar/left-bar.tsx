@@ -2,6 +2,7 @@ import React from 'react'
 import { CategoriesList } from './categories-list'
 import { BrandsList } from './brands-list'
 import { PriceRangeForm } from './price-range-form'
+import { SearchForm } from './search-form'
 
 export const LeftBar = () => {
   return (
@@ -17,16 +18,7 @@ export const LeftBar = () => {
             </header>
             <div className="filter-content collapse show" id="collapse_1" style={{}}>
               <div className="card-body">
-                <form className="pb-3">
-                  <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search"/>
-                    <div className="input-group-append">
-                      <button className="btn btn-light" type="button"><i
-                        className="fa fa-search"/>
-                      </button>
-                    </div>
-                  </div>
-                </form>
+                <SearchForm/>
                 <CategoriesList/>
               </div>
             </div>

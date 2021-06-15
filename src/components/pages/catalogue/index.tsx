@@ -23,6 +23,7 @@ export const CataloguePage = observer(({ match }: Props) => {
   const brandId = Number(query.get('brand_id'))
   const min = Number(query.get('min_price'))
   const max = Number(query.get('max_price'))
+  const search = query.get('search')
 
   useEffect(() => {
     catalogueStore.setCategoryId(categoryId)
@@ -33,6 +34,9 @@ export const CataloguePage = observer(({ match }: Props) => {
   useEffect(() => {
     catalogueStore.setMinMaxPrice(min, max)
   }, [min, max])
+  useEffect(() => {
+    catalogueStore.setSearch(search)
+  }, [search])
 
 
   useEffect(() => {
@@ -42,7 +46,8 @@ export const CataloguePage = observer(({ match }: Props) => {
     catalogueStore.filters.categoryId,
     catalogueStore.filters.brandId,
     catalogueStore.filters.maxPrice,
-    catalogueStore.filters.minPrice
+    catalogueStore.filters.minPrice,
+    catalogueStore.filters.search
   ])
 
   let listItems

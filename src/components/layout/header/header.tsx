@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { SearchForm } from './search-form'
 
 export const Header = () => {
   return (
@@ -14,16 +15,7 @@ export const Header = () => {
                 </a>
               </div>
               <div className="col-lg-6 col-sm-12">
-                <form action="#" className="search">
-                  <div className="input-group w-100">
-                    <input type="text" className="form-control" placeholder="Search"/>
-                    <div className="input-group-append">
-                      <button className="btn btn-primary" type="submit">
-                        <i className="fa fa-search"/> Search
-                      </button>
-                    </div>
-                  </div>
-                </form>
+                <SearchForm/>
               </div>
               <div className="col-lg-4 col-sm-6 col-12">
                 <div className="widgets-wrap float-md-right">

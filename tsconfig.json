@@ -19,6 +19,7 @@
     "noImplicitAny": false,
     "noEmit": true,
     "jsx": "react-jsx",
+    "downlevelIteration": true,
     "isolatedModules": true
   },
   "include": [

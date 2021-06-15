@@ -19,7 +19,8 @@ class CatalogueStore {
     categoryId: null as number | null,
     brandId: null as number | null,
     minPrice: null as number | null,
-    maxPrice: null as number | null
+    maxPrice: null as number | null,
+    search: '' as null | string
   }
 
   calcCategoryIdString(id: number) {
@@ -41,6 +42,10 @@ class CatalogueStore {
   setMinMaxPrice(min: number, max: number) {
     this.filters.minPrice = min
     this.filters.maxPrice = max
+  }
+
+  setSearch(search: string | null) {
+    this.filters.search = search
   }
 
   isProductsListLoading = false
@@ -82,7 +87,9 @@ class CatalogueStore {
     const query = `?page=${page}
     ${this.filters.brandId ? `&brand_id=${this.filters.brandId}` : ''} 
     ${this.filters.minPrice ? `&min_price=${this.filters.minPrice}` : ''} 
-    ${this.filters.maxPrice ? `&max_price=${this.filters.maxPrice}` : ''}`
+    ${this.filters.maxPrice ? `&max_price=${this.filters.maxPrice}` : ''}
+    ${this.filters.search ? `&search=${this.filters.search}` : ''}
+    `
 
     api.get(`${endpoint}/${query}`)
       .then(res => runInAction(() => this.productsList = res.data))
