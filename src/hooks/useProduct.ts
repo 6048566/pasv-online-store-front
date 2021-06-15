@@ -9,17 +9,23 @@ export const useProduct = (productId: number) => {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    let unmounted = false
+
     const loadProduct = (productKey: number) => {
       setIsLoading(true)
       api.get('/product/get/' + productKey)
         .then(res => {
-          setProduct(res.data)
+          !unmounted && setProduct(res.data)
         })
-        .catch(error => setError(error.response))
-        .finally(() => setIsLoading(false))
+        .catch(error => !unmounted && setError(error.response))
+        .finally(() => !unmounted && setIsLoading(false))
     }
 
     loadProduct(productId)
+
+    return () => {
+      unmounted = true
+    }
   }, [])
 
   return { product, isLoading, error }
