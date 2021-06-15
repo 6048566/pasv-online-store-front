@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { ModestProduct } from '../../../types/product'
+import { cartStore } from '../../../store/cart-store'
 
 type Props = {
   item: ModestProduct
@@ -12,7 +13,7 @@ export const ProductItem = ({ item }: Props) => {
       <figure className="card card-product-grid">
         <div className="img-wrap">
           <span className="badge badge-danger"> NEW </span>
-          <img src={item.photo || '/images/items/1.jpg'} alt=""/>
+          <img style={{ objectFit: 'contain' }} src={item.photo || '/images/items/1.jpg'} alt=""/>
         </div>
         <figcaption className="info-wrap">
           <div className="fix-height">
@@ -27,7 +28,9 @@ export const ProductItem = ({ item }: Props) => {
 
             </div>
           </div>
-          <a href="#" className="btn btn-block btn-primary">Add to cart </a>
+          <button onClick={() => cartStore.addToCart(item.id)} className="btn btn-block btn-primary">
+            Add to cart
+          </button>
         </figcaption>
       </figure>
     </div>

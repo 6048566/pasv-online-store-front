@@ -1,8 +1,8 @@
 import { FullProduct } from '../types/product'
-import api from '../api'
+import { api } from '../api'
 import { makeAutoObservable, runInAction } from 'mobx'
 
-class CertainProductStore {
+export class CertainProductStore {
   product: FullProduct | null = null
   isLoading = false
   error = ''
@@ -13,7 +13,6 @@ class CertainProductStore {
 
   loadProduct(productKey: string) {
     this.isLoading = true
-
     api.get(
       '/product/get/' + productKey)
       .then(res => {
@@ -21,9 +20,7 @@ class CertainProductStore {
           this.product = res.data
         })
       })
-      .catch(error => {
-        this.error = error.response
-      })
+      .catch(error => runInAction(() => this.error = error.response))
       .finally(() => runInAction(() => this.isLoading = false))
   }
 }

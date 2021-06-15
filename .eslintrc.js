@@ -40,6 +40,7 @@ module.exports = {
     'semi': [
       'error',
       'never'
-    ]
+    ],
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }
