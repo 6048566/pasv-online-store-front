@@ -1,8 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { SearchForm } from './search-form'
+import { cartStore } from '../../../store/cart-store'
+import { Observer } from 'mobx-react-lite'
 
 export const Header = () => {
+
   return (
     <>
       <header className="section-header">
@@ -22,7 +25,9 @@ export const Header = () => {
                   <div className="widget-header  mr-3">
                     <NavLink to="/cart" className="icon icon-sm rounded-circle border"><i
                       className="fa fa-shopping-cart"/></NavLink>
-                    <span className="badge badge-pill badge-danger notify">0</span>
+                    <Observer>
+                      {() => <span className="badge badge-pill badge-danger notify">{cartStore.productsCount}</span>}
+                    </Observer>
                   </div>
                   <div className="widget-header icontext">
                     <a href="#" className="icon icon-sm rounded-circle border"><i

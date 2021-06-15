@@ -55,9 +55,10 @@ export const CataloguePage = observer(({ match }: Props) => {
   const store = toJS(catalogueStore.productsList)
 
   if (!catalogueStore.isProductsListLoading) {
-    listItems = store.result.map((item) =>
-      <ProductItem item={item} key={item.id}/>
-    )
+    listItems = !store.result.length
+      ? <div>Ни одна вещь не подходит по таким фильтрам!</div>
+      : store.result.map((item) => <ProductItem item={item} key={item.id}/>
+      )
   }
 
   return (

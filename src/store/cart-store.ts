@@ -8,6 +8,10 @@ class CartStore {
   error = ''
   cartProductsList = [] as CartProductInfo[]
 
+  get productsCount() {
+    return this.cartProductsList.length
+  }
+
   constructor() {
     makeAutoObservable(this)
     this.createCustomerToken().then(() => this.loadCart())
