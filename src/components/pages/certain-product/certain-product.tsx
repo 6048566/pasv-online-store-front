@@ -69,7 +69,10 @@ export const CertainProduct = observer(({ match }: Props) => {
                         min={1} max={Math.min(10, certainProductStore.product?.quantity || 1)}/>
                     </div>
                     <button
-                      onClick={() => cartStore.updateProduct(certainProductStore.product?.id || 0, buyAmount)}
+                      onClick={async () => {
+                        await cartStore.updateProduct(certainProductStore.product?.id || 0, buyAmount)
+                        cartStore.loadCart()
+                      }}
                       className="ml-3 align-self-center col-4 btn btn-outline-primary">
                       <span className="text">Add to cart</span> <i className="fas fa-shopping-cart"/>
                     </button>

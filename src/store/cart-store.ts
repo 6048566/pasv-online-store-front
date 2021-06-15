@@ -10,11 +10,12 @@ class CartStore {
 
   constructor() {
     makeAutoObservable(this)
+    this.createCustomerToken().then(() => this.loadCart())
   }
 
   createCustomerToken() {
-    if (localStorage.getItem('customer_token')) return
-    api.post(
+    if (localStorage.getItem('customer_token')) return Promise.resolve()
+    return api.post(
       '/customer/create/', {})
       .then(res => {
         if (res.data.status === true) {
@@ -43,6 +44,7 @@ class CartStore {
   async addToCart(productId: number) {
     const quantity = this.cartProductsList.find(p => p.product)?.quantity || 0
     await this.updateProduct(productId, quantity + 1)
+    this.loadCart()
   }
 
   async removeProduct(productId: number) {

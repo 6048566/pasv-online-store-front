@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CartListItem } from './cart-list-item'
 import { cartStore } from '../../../../store/cart-store'
 import { observer } from 'mobx-react-lite'
 import { Loader } from '../../../shared/loader/loader'
 
 export const CartList = observer(() => {
-
-  useEffect(() => {
-    cartStore.loadCart()
-  }, [])
 
   if (cartStore.isCartProductsListLoading)
     return <tr>

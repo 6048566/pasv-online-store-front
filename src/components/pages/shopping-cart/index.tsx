@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { PaymentForm } from './payment-form'
 import { CartList } from './cart-list/cart-list'
-import { cartStore } from '../../../store/cart-store'
 
 export const ShoppingCart = () => {
-
-  useEffect(() => {
-    cartStore.createCustomerToken()
-  }, [])
 
   return (
     <div className="container" style={{ padding: 25 }}>
