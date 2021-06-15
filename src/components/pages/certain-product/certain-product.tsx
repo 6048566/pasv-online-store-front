@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { certainProductStore } from '../../../store/certain-product-store'
 import { observer } from 'mobx-react-lite'
 import { BreadCrumbsTop } from '../../layout/bread-crumbs-top'
 import { Loader } from '../../shared/loader/loader'
 import { catalogueStore } from '../../../store/catalogue-store'
+import { CounterInput } from '../../shared/counter-input'
+import { cartStore } from '../../../store/cart-store'
 
 type Params = { pk: string }
 type Props = RouteComponentProps<Params>
@@ -17,6 +19,7 @@ export const CertainProduct = observer(({ match }: Props) => {
     certainProductStore.loadProduct(productKey)
   }, [])
 
+  const [buyAmount, setBuyAmount] = useState(1)
 
   return (
     <>
@@ -38,7 +41,9 @@ export const CertainProduct = observer(({ match }: Props) => {
           <div className="card" style={{ margin: 25 }}>
             <div className="row no-gutters">
               <aside className="col-md-6 d-flex justify-content-center align-items-center">
-                <img className="w-80 h-80" src={certainProductStore.product?.photo || '/images/items/1.jpg'} alt=""/>
+                <img
+                  style={{ width: '100%', height: '100%' }}
+                  src={certainProductStore.product?.photo || '/images/items/1.jpg'} alt=""/>
               </aside>
               <main className="col-md-6 border-left">
                 <article className="content-body">
@@ -57,22 +62,17 @@ export const CertainProduct = observer(({ match }: Props) => {
                   Available quantity: {certainProductStore.product?.quantity}
                   <hr/>
                   <div className="form-row">
-                    <div className="col-5 mt-1 form-group col-md flex-grow-0">
+                    <div className="col-5 form-group col-md flex-grow-0">
                       <label>Quantity</label>
-                      <div className="mt-1 input-group mb-3 input-spinner">
-                        <div className="input-group-prepend">
-                          <button className="btn btn-light" type="button" id="button-minus"> -</button>
-                        </div>
-                        <input type="text" className="form-control" defaultValue="1"/>
-                        <div className="input-group-append">
-                          <button className="btn btn-light" type="button" id="button-plus"> +</button>
-                        </div>
-                      </div>
+                      <CounterInput
+                        value={buyAmount} setValue={setBuyAmount}
+                        min={1} max={Math.min(10, certainProductStore.product?.quantity || 1)}/>
                     </div>
-                    <a href="#" className="ml-3 align-self-center col-3 btn btn-primary"> Buy now </a>
-                    <a href="#" className="ml-3 align-self-center col-4 btn btn-outline-primary">
+                    <button
+                      onClick={() => cartStore.updateProduct(certainProductStore.product?.id || 0, buyAmount)}
+                      className="ml-3 align-self-center col-4 btn btn-outline-primary">
                       <span className="text">Add to cart</span> <i className="fas fa-shopping-cart"/>
-                    </a>
+                    </button>
                   </div>
 
                 </article>

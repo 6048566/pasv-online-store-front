@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import api from '../api'
+import { api } from '../api'
 import { ModestProduct } from '../types/product'
 import { PaginationLinks } from '../types/pagination'
 import { Category } from '../types/category'
