@@ -46,8 +46,12 @@ class CartStore {
   }
 
   async addToCart(productId: number) {
-    const quantity = this.cartProductsList.find(p => p.product)?.quantity || 0
-    await this.updateProduct(productId, quantity + 1)
+    const buyQuantity = this.cartProductsList.find(p => p.product === productId)?.quantity || 0
+    const available = (await api.get('/product/get/' + productId)).data.quantity
+
+    if (available <= buyQuantity) return
+
+    await this.updateProduct(productId, buyQuantity + 1)
     this.loadCart()
   }
 
