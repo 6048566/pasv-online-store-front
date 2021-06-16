@@ -26,13 +26,13 @@ export const CertainProduct = observer(({ match }: Props) => {
       <BreadCrumbsTop title="Product Page" crumbs={catalogueStore.filters.categoryId
         ?
         [
-          { title: 'Products', link: 'products/page/1' },
+          { title: 'Products', link: '/products/page/1' },
           {
             title: catalogueStore.categoryList.find(c => c.id === catalogueStore.filters.categoryId)?.title || '',
             link: `/products/page/1?category_id=${catalogueStore.filters.categoryId}`
           }
         ]
-        : [{ title: 'Products', link: 'products/page/1' }]
+        : [{ title: 'Products', link: '/products/page/1' }]
       } here={certainProductStore.product?.title || ''}/>
       {
         certainProductStore.isLoading
@@ -42,6 +42,7 @@ export const CertainProduct = observer(({ match }: Props) => {
             <div className="row no-gutters">
               <aside className="col-md-6 d-flex justify-content-center align-items-center">
                 <img
+                  className="p-2 p-lg-5 py-md-5"
                   style={{ width: '100%', height: '100%' }}
                   src={certainProductStore.product?.photo || '/images/items/1.jpg'} alt=""/>
               </aside>
