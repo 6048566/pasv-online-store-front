@@ -26,14 +26,20 @@ class CartStore {
           localStorage.setItem('customer_token', res.data.customer_token)
         }
       })
-      .catch(error => runInAction(() => this.error = error.response))
+      .catch(error => {
+        runInAction(() => this.error = error.response)
+        console.dir(error)
+      })
   }
 
   loadCart() {
     this.isCartProductsListLoading = true
     api.get(`/order/cart/list/${localStorage.getItem('customer_token')}/`)
       .then(res => runInAction(() => this.cartProductsList = res.data))
-      .catch(res => runInAction(() => this.error = res.data))
+      .catch(error => {
+        runInAction(() => this.error = error.response)
+        console.dir(error)
+      })
       .finally(() => runInAction(() => this.isCartProductsListLoading = false))
   }
 
@@ -42,7 +48,10 @@ class CartStore {
       token: localStorage.getItem('customer_token'),
       product_id: productId,
       quantity
-    }).then(res => res.data).catch(res => runInAction(() => this.error = res.data))
+    }).then(res => res.data).catch(error => {
+      runInAction(() => this.error = error.response)
+      console.dir(error)
+    })
   }
 
   async addToCart(productId: number) {
