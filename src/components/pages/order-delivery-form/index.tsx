@@ -5,6 +5,8 @@ import { finalizeOrderStore } from '../../../store/finalize-order'
 import { Loader } from '../../shared/loader/loader'
 import { ErrorDisplay } from '../../shared/error-display'
 import { observer } from 'mobx-react-lite'
+import { useHistory } from 'react-router-dom'
+import { cartStore } from '../../../store/cart-store'
 
 export interface IFormInput {
   first_name: string,
@@ -18,11 +20,14 @@ export interface IFormInput {
 }
 
 export const OrderDeliveryForm = observer(() => {
+  const history = useHistory()
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>()
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
-    console.log(data)
-    finalizeOrderStore.finalizeOrder(data).then(() => console.log('Success'))
+    finalizeOrderStore.finalizeOrder(data).then(() => {
+      cartStore.loadCart()
+      history.push('/cart')
+    })
   }
 
   return (

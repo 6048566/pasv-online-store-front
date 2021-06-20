@@ -13,19 +13,18 @@ class FinalizeOrderStore {
   finalizeOrder(orderDetails: IFormInput){
     this.isLoading = true
     this.error = ''
-    return  api.put('/order/finalize/', {
+    return api.put('/order/finalize/', {
       ...orderDetails,
       post_code: +orderDetails.post_code,
       phone: +orderDetails.phone,
       token: localStorage.getItem('customer_token')
+    }).catch(error => {
+      runInAction(() => this.error = error.response)
+      console.dir(error)
+      throw new Error('Ы')
+    }).finally(() => {
+      runInAction(() => this.isLoading = false)
     })
-      .catch(error => {
-        runInAction(() => this.error = error.response)
-        console.dir(error)
-      })
-      .finally(() => {
-        runInAction(() => this.isLoading = false)
-      })
   }
 }
 

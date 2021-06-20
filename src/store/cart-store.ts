@@ -27,7 +27,7 @@ class CartStore {
         }
       })
       .catch(error => {
-        runInAction(() => this.error = error.response)
+        runInAction(() => this.error = error.response.data.error)
         console.dir(error)
       })
   }
@@ -37,7 +37,7 @@ class CartStore {
     api.get(`/order/cart/list/${localStorage.getItem('customer_token')}/`)
       .then(res => runInAction(() => this.cartProductsList = res.data))
       .catch(error => {
-        runInAction(() => this.error = error.response)
+        runInAction(() => this.error = error.response.data.error)
         console.dir(error)
       })
       .finally(() => runInAction(() => this.isCartProductsListLoading = false))
@@ -49,7 +49,7 @@ class CartStore {
       product_id: productId,
       quantity
     }).then(res => res.data).catch(error => {
-      runInAction(() => this.error = error.response)
+      runInAction(() => this.error = error.response.data.error)
       console.dir(error)
     })
   }
