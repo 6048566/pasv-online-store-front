@@ -40,8 +40,8 @@ export const Header = () => {
                     <div className="text">
                       <span className="text-muted">Welcome!</span>
                       <div>
-                        <a href="#">Sign in</a> |
-                        <a href="#"> Register</a>
+                        <NavLink to="/login">Sign in</NavLink> |
+                        <NavLink to="/registration"> Register</NavLink>
                       </div>
                     </div>
                   </div>

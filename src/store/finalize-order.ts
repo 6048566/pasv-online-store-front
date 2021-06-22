@@ -21,7 +21,7 @@ class FinalizeOrderStore {
     }).catch(error => {
       runInAction(() => this.error = error.response)
       console.dir(error)
-      throw new Error('Ы')
+      throw new Error('')
     }).finally(() => {
       runInAction(() => this.isLoading = false)
     })

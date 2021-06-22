@@ -1,5 +1,5 @@
 import React from 'react'
-import { Countries } from './counties'
+import { Countries } from './countries'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { finalizeOrderStore } from '../../../store/finalize-order'
 import { Loader } from '../../shared/loader/loader'
@@ -26,7 +26,7 @@ export const OrderDeliveryForm = observer(() => {
   const onSubmit: SubmitHandler<IFormInput> = data => {
     finalizeOrderStore.finalizeOrder(data).then(() => {
       cartStore.loadCart()
-      history.push('/cart')
+      history.push('/ordered/delivery')
     })
   }
 
@@ -42,12 +42,14 @@ export const OrderDeliveryForm = observer(() => {
                   <label>First name</label>
                   <input
                     {
-                      ...register('first_name', { required: true, maxLength: 50 })
+                      ...register('first_name',
+                        {
+                          required: 'This field is required',
+                          maxLength: { value: 50, message: 'First name cannot exceed 50 characters' }
+                        })
                     }
                     type="text" className="form-control" placeholder="First name"/>
-                  {errors?.first_name?.type === 'required' && <p style={{ color: 'red' }}>This field is required</p>}
-                  {errors?.first_name?.type === 'maxLength' && (
-                    <p style={{ color: 'red' }}>First name cannot exceed 50 characters</p>)}
+                  {errors?.first_name && <p style={{ color: 'red' }}>{errors.first_name.message}</p>}
                 </div>
               </div>
               <div className="form-row">
@@ -55,14 +57,14 @@ export const OrderDeliveryForm = observer(() => {
                   <label>Last name</label>
                   <input
                     {
-                      ...register('last_name', { required: true, maxLength: 100 })
+                      ...register('last_name',
+                        {
+                          required: 'This field is required',
+                          maxLength: { value: 100, message: 'Last name cannot exceed 100 characters' }
+                        })
                     }
                     type="text" className="form-control" placeholder="Last name"/>
-                  {errors?.last_name?.type === 'required' &&
-                  <p style={{ color: 'red' }}>This field is required</p>}
-                  {errors?.last_name?.type === 'maxLength' && (
-                    <p style={{ color: 'red' }}>Last name cannot exceed 100 characters</p>
-                  )}
+                  {errors?.last_name && <p style={{ color: 'red' }}>{errors.last_name?.message}</p>}
                 </div>
               </div>
               <div className="form-row">
@@ -71,16 +73,12 @@ export const OrderDeliveryForm = observer(() => {
                   <input
                     {
                       ...register('email', {
-                        required: true,
-                        pattern: /^\S+@\S+$/i
+                        required: 'This field is required',
+                        pattern: { value: /^\S+@\S+$/i, message: 'The email is not in the correct format' }
                       })
                     }
                     type="email" className="form-control" placeholder="reciki5478@greenkic.com"/>
-                  {errors?.email?.type === 'required' &&
-                  <p style={{ color: 'red' }}>This field is required</p>}
-                  {errors?.email?.type === 'pattern' && (
-                    <p style={{ color: 'red' }}>Alphabetical characters only</p>
-                  )}
+                  {errors?.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
                 </div>
               </div>
               <div className="form-row">
@@ -88,30 +86,32 @@ export const OrderDeliveryForm = observer(() => {
                   <label>Postcode</label>
                   <input
                     {
-                      ...register('post_code', { required: true })
+                      ...register('post_code', { required: 'This field is required' })
                     }
                     type="text" className="form-control" placeholder="00210"/>
-                  {errors?.post_code?.type === 'required' &&
-                  <p style={{ color: 'red' }}>This field is required</p>}
+                  {errors?.post_code && <p style={{ color: 'red' }}>{errors.post_code.message}</p>}
                 </div>
                 <div className="col form-group">
                   <label>Phone</label>
                   <input
-                    pattern="\d{3}\d{3}\d{4}"
-                    {...register('phone', { required: true, minLength: 6, maxLength: 12 })}
+                    {...register('phone',
+                      {
+                        required: 'This field is required',
+                        minLength: { value: 6, message: 'Phone cannot be less than 6 characters' },
+                        maxLength: { value: 12, message: 'Phone cannot exceed 12 characters' },
+                        pattern: {
+                          value: /^\d{3}\d{3}\d{4}/i,
+                          message: 'The number phone is not in the correct format'
+                        }
+                      })}
                     type="text" className="form-control" placeholder="1302461037"/>
-                  {errors?.phone?.type === 'required' && <p style={{ color: 'red' }}>This field is required</p>}
-                  {errors?.phone?.type === 'minLength' && (
-                    <p style={{ color: 'red' }}>Phone cannot be less than 6 characters</p>)}
-                  {errors?.phone?.type === 'maxLength' && (
-                    <p style={{ color: 'red' }}>Phone cannot exceed 12 characters</p>)}
-                  {errors?.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>Alphabetical characters only</p>)}
+                  {errors?.phone && <p style={{ color: 'red' }}>{errors.phone.message}</p>}
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group col-md-6">
                   <label>Country</label>
-                  <select className="form-control" {...register('country', { required: true })}>
+                  <select className="form-control" {...register('country')}>
                     {
                       Countries.map(c =>
                         <option key={c.name} value={c.name}>
@@ -125,25 +125,34 @@ export const OrderDeliveryForm = observer(() => {
                   <label>City</label>
                   <input
                     {
-                      ...register('city', { required: true })
+                      ...register('city', { required: 'This field is required' })
                     }
                     type="text" className="form-control"/>
-                  {errors?.city?.type === 'required' &&
-                  <p style={{ color: 'red' }}>This field is required</p>}
+                  {errors?.city && <p style={{ color: 'red' }}>{errors.city.message}</p>}
                 </div>
               </div>
               <div className="form-group">
                 <label>Address</label>
                 <input
                   {
-                    ...register('address', { required: true })
+                    ...register('address', { required: 'This field is required' })
                   }
                   type="text" className="form-control"/>
-                {errors?.address?.type === 'required' &&
-                <p style={{ color: 'red' }}>This field is required</p>}
+                {errors?.address && <p style={{ color: 'red' }}>{errors.address.message}</p>}
               </div>
               <div className="form-group mt-4">
-                <button type="submit" className="btn btn-primary btn-block p-3" style={{ fontSize: 18 }}>Order</button>
+                <div
+                  style={{ width: '100%', color: 'red', fontSize: 20 }}
+                  className='d-flex justify-content-center align-items-center mb-3'>
+                  {
+                    !finalizeOrderStore.isLoading && finalizeOrderStore.error &&
+                    <ErrorDisplay error={finalizeOrderStore.error}/>
+                  }
+                </div>
+                <div>
+                  <button type="submit" className="btn btn-primary btn-block p-3" style={{ fontSize: 18 }}>Order
+                  </button>
+                </div>
               </div>
             </form>
           </div>
@@ -154,10 +163,6 @@ export const OrderDeliveryForm = observer(() => {
         style={{ position: 'fixed', marginTop: '-62.5vh', paddingLeft: '48.3vw' }}>
         <Loader/>
       </div>}
-      {
-        !finalizeOrderStore.isLoading && finalizeOrderStore.error &&
-        <ErrorDisplay error={finalizeOrderStore.error}/>
-      }
     </div>
   )
 })
