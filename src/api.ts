@@ -17,7 +17,6 @@ api.interceptors.request.use(config => {
   config.headers.authorization = localStorage.getItem(ACCESS_TOKEN_KEY)
     ? `${appConfig.jwt_prefix} ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
     : ''
-  console.log(config.headers.authorization)
   return config
 })
 
