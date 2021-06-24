@@ -4,12 +4,10 @@ import { CataloguePage } from './components/pages/catalogue'
 import { CertainProduct } from './components/pages/certain-product/certain-product'
 import { ShoppingCart } from './components/pages/shopping-cart'
 import { Home } from './components/pages/home/home'
-import { OrderDeliveryForm } from './components/pages/order-delivery-form'
-import { cartStore } from './store/cart-store'
-import { Observer } from 'mobx-react-lite'
 import { Registration } from './components/pages/register'
 import { Login } from './components/pages/login'
 import { OrderedDeliveryForm } from './components/pages/order-delivery-form/ordered-delivery-form'
+import { OptionalRoutes } from './optional-routes'
 
 // import Dashboard from "./pages/dashboard"
 // import Profile from "./pages/profile";
@@ -26,13 +24,7 @@ export const Routes = () => {
       <Route path="/registration" component={Registration} exact/>
       <Route path="/login" component={Login} exact/>
       <Route path="/ordered/delivery" component={OrderedDeliveryForm} exact/>
-      <Observer>
-        {
-          () => cartStore.productsCount
-            ? <Route path="/order/delivery" component={OrderDeliveryForm} exact/>
-            : <Redirect to={'/home'}/>
-        }
-      </Observer>
+      <OptionalRoutes/>
       <Route path="/" component={() => <Redirect to={'/home'}/>}/>
     </Switch>
   )

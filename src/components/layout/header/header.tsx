@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom'
 import { SearchForm } from './search-form'
 import { cartStore } from '../../../store/cart-store'
 import { Observer } from 'mobx-react-lite'
+import { authStore } from '../../../store/auth-store'
+import { Loader } from '../../shared/loader/loader'
 
 export const Header = () => {
 
@@ -35,14 +37,30 @@ export const Header = () => {
                     </Observer>
                   </div>
                   <div className="widget-header icontext">
-                    <a href="#" className="icon icon-sm rounded-circle border"><i
-                      className="fa fa-user"/></a>
+                    <NavLink to="/login" className="icon icon-sm rounded-circle border">
+                      <i className="fa fa-user"/>
+                    </NavLink>
                     <div className="text">
-                      <span className="text-muted">Welcome!</span>
-                      <div>
-                        <NavLink to="/login">Sign in</NavLink> |
-                        <NavLink to="/registration"> Register</NavLink>
-                      </div>
+                      <Observer>
+                        {() => {
+                          if (authStore.isLoading)
+                            return <div><Loader/></div>
+
+                          if (authStore.userData)
+                            return <div>
+                              <NavLink to={'/my-account'}>{authStore.userData.first_name}</NavLink> |
+                              <a href="" onClick={e => {
+                                e.preventDefault()
+                                authStore.logout()
+                              }}>Log out</a>
+                            </div>
+
+                          return <div>
+                            <NavLink to="/login">Sign in</NavLink> |
+                            <NavLink to="/registration"> Register</NavLink>
+                          </div>
+                        }}
+                      </Observer>
                     </div>
                   </div>
                 </div>

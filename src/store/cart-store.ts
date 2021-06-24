@@ -2,6 +2,8 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { api } from '../api'
 import { CartProductInfo } from '../types/cart'
 
+export const CUSTOMER_TOKEN_KEY = 'customer_token'
+
 class CartStore {
 
   isCartProductsListLoading = false
@@ -18,12 +20,12 @@ class CartStore {
   }
 
   createCustomerToken() {
-    if (localStorage.getItem('customer_token')) return Promise.resolve()
+    if (localStorage.getItem(CUSTOMER_TOKEN_KEY)) return Promise.resolve()
     return api.post(
       '/customer/create/', {})
       .then(res => {
         if (res.data.status === true) {
-          localStorage.setItem('customer_token', res.data.customer_token)
+          localStorage.setItem(CUSTOMER_TOKEN_KEY, res.data.customer_token)
         }
       })
       .catch(error => {
@@ -34,7 +36,7 @@ class CartStore {
 
   loadCart() {
     this.isCartProductsListLoading = true
-    api.get(`/order/cart/list/${localStorage.getItem('customer_token')}/`)
+    api.get(`/order/cart/list/${localStorage.getItem(CUSTOMER_TOKEN_KEY)}/`)
       .then(res => runInAction(() => this.cartProductsList = res.data))
       .catch(error => {
         runInAction(() => this.error = error.response.data.error)
@@ -45,7 +47,7 @@ class CartStore {
 
   async updateProduct(productId: number, quantity: number) {
     await api.post('/order/cart/update/', {
-      token: localStorage.getItem('customer_token'),
+      token: localStorage.getItem(CUSTOMER_TOKEN_KEY),
       product_id: productId,
       quantity
     }).then(res => res.data).catch(error => {

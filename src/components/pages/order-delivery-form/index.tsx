@@ -1,7 +1,7 @@
 import React from 'react'
 import { Countries } from './countries'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { finalizeOrderStore } from '../../../store/finalize-order'
+import { finalizeOrderStore } from '../../../store/finalize-order-store'
 import { Loader } from '../../shared/loader/loader'
 import { ErrorDisplay } from '../../shared/error-display'
 import { observer } from 'mobx-react-lite'

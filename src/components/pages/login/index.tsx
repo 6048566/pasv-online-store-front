@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { useHistory, NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLogin } from './use-login'
 import { ErrorDisplay } from '../../shared/error-display'
@@ -17,7 +17,7 @@ export const Login = observer(() => {
   const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>()
 
   const onSubmit: SubmitHandler<ILoginForm> = data => {
-    submitLogin(data).then(result => result && history.push('/home')).catch()
+    submitLogin(data).then(success => success && history.push('/home')).catch()
   }
 
   return (
